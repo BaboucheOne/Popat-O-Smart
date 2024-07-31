@@ -2,8 +2,8 @@ import re
 
 from zeroconf import ServiceListener, Zeroconf
 
-from src.application.device.delegate.device_service_delegate import (
-    DeviceServiceDelegate,
+from src.application.device.delegate.device_browser_delegate import (
+    DeviceBrowserDelegate,
 )
 from src.application.device.exception.unable_to_get_device_info_exception import (
     UnableToGetDeviceInfoException,
@@ -16,7 +16,7 @@ class DeviceListener(ServiceListener):
 
     DEVICE_NAME_REGEX: str = r"water-plant"
 
-    def __init__(self, device_service_delegate: DeviceServiceDelegate):
+    def __init__(self, device_service_delegate: DeviceBrowserDelegate):
         self.__device_factory = DeviceFactory()
         self.__device_service_delegate = device_service_delegate
 

@@ -1,9 +1,10 @@
-from dataclasses import dataclass
 from uuid import UUID
+from dataclasses import dataclass
+from dataclasses_jsonschema import JsonSchemaMixin
 
 
 @dataclass
-class PlantReport:
+class PlantReport(JsonSchemaMixin):
     plant_id: UUID
     report_id: UUID
     timestamp: int

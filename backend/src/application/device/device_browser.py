@@ -1,14 +1,14 @@
 from typing import List
 from zeroconf import Zeroconf, ServiceBrowser
 
-from src.application.device.delegate.device_service_delegate import (
-    DeviceServiceDelegate,
+from src.application.device.delegate.device_browser_delegate import (
+    DeviceBrowserDelegate,
 )
 from src.application.device.device_listener import DeviceListener
 from src.domain.device.device import Device
 
 
-class DeviceServiceBrowser(DeviceServiceDelegate):
+class DeviceBrowser(DeviceBrowserDelegate):
     def __init__(self):
         self.__zeroconf = Zeroconf()
         self.__devices: set[Device] = set()
