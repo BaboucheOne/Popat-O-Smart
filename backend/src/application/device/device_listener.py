@@ -8,8 +8,8 @@ from src.application.device.delegate.device_service_delegate import (
 from src.application.device.exception.unable_to_get_device_info_exception import (
     UnableToGetDeviceInfoException,
 )
-from src.domain.device import Device
-from src.domain.device_factory import DeviceFactory
+from src.domain.device.device import Device
+from src.domain.device.device_factory import DeviceFactory
 
 
 class DeviceListener(ServiceListener):
