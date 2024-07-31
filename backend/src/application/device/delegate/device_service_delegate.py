@@ -1,6 +1,6 @@
 import abc
 
-from src.domain.device import Device
+from src.domain.device.device import Device
 
 
 class DeviceServiceDelegate(abc.ABC):

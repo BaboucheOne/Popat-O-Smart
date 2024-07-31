@@ -2,6 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.api.plant.plant_resource import router as plant_resource
+from src.api.health_resource import router as health_resource
 from src.application.device.device_service_browser import DeviceServiceBrowser
 
 
@@ -28,5 +30,5 @@ def setup_app() -> FastAPI:
 
 
 def include_routers(app: FastAPI):
-    # app.include_router(health_router)
-    pass
+    app.include_router(health_resource)
+    app.include_router(plant_resource)

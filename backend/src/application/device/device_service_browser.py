@@ -5,7 +5,7 @@ from src.application.device.delegate.device_service_delegate import (
     DeviceServiceDelegate,
 )
 from src.application.device.device_listener import DeviceListener
-from src.domain.device import Device
+from src.domain.device.device import Device
 
 
 class DeviceServiceBrowser(DeviceServiceDelegate):
