@@ -13,7 +13,7 @@ router = APIRouter()
 @router.post("/plant/report")
 async def add_report(plant_report_request: PlantReportRequest):
     plant_report = PlantReport(
-        uuid.UUID(plant_report_request.plant_id),
+        plant_report_request.plant_id,
         uuid.uuid4(),
         plant_report_request.timestamp,
         plant_report_request.humidity,
