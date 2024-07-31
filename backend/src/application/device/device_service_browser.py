@@ -13,6 +13,9 @@ class DeviceServiceBrowser(DeviceServiceDelegate):
         self.__zeroconf = Zeroconf()
         self.__devices: set[Device] = set()
         self.__device_listener = DeviceListener(self)
+        self.__browser = ServiceBrowser(
+            self.__zeroconf, "_http._tcp.local.", self.__device_listener
+        )
 
     @property
     def devices(self) -> List[Device]:
@@ -25,12 +28,6 @@ class DeviceServiceBrowser(DeviceServiceDelegate):
     def remove_device(self, device: Device):
         if device in self.__devices:
             self.__devices.remove(device)
-
-    def listen(self) -> None:
-        browser = ServiceBrowser(
-            self.__zeroconf, "_http._tcp.local.", self.__device_listener
-        )
-        browser.start()
 
     def stop(self):
         self.__zeroconf.close()
