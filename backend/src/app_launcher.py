@@ -5,11 +5,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.api.plant.plant_resource import router as plant_resource
 from src.api.health_resource import router as health_resource
 from src.application.device.device_service_browser import DeviceServiceBrowser
+from src.application.plant.plant_service import PlantService
+from src.config.service_locator import ServiceLocator
 
 
 def launch():
     app = setup_app()
     DeviceServiceBrowser()
+
+    ServiceLocator.register_dependency(PlantService, PlantService())
+
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
