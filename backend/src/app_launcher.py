@@ -18,7 +18,7 @@ def launch():
     device_browser = DeviceBrowser()
 
     ServiceLocator.register_dependency(PlantService, PlantService())
-    ServiceLocator.register_dependency(PlantService, DeviceService(device_browser))
+    ServiceLocator.register_dependency(DeviceService, DeviceService(device_browser))
 
     uvicorn.run(app, host="127.0.0.1", port=8000)
 

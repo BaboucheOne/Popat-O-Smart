@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
-from fastapi.responses import Response
-from starlette import status
 
+from src.api.device.response.get_devices_response import GetDevicesResponse
 from src.application.device.device_service import DeviceService
 from src.config.service_locator import ServiceLocator
 
@@ -16,4 +15,4 @@ async def get_devices(
 ):
 
     devices = device_service.get_devices()
-    return Response(status_code=status.HTTP_200_OK)
+    return GetDevicesResponse(devices)
