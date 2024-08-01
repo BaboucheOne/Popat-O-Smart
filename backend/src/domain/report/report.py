@@ -4,7 +4,7 @@ from dataclasses_jsonschema import JsonSchemaMixin
 
 
 @dataclass
-class PlantReport(JsonSchemaMixin):
+class Report(JsonSchemaMixin):
     plant_id: UUID
     report_id: UUID
     timestamp: int
