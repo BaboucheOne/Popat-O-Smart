@@ -3,17 +3,22 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.plant.plant_resource import router as plant_resource
+from src.api.device.device_resource import router as device_resource
 from src.api.health_resource import router as health_resource
-from src.application.device.device_service_browser import DeviceServiceBrowser
+
+from src.application.device.device_browser import DeviceBrowser
+from src.application.device.device_service import DeviceService
 from src.application.plant.plant_service import PlantService
 from src.config.service_locator import ServiceLocator
 
 
 def launch():
     app = setup_app()
-    DeviceServiceBrowser()
+
+    device_browser = DeviceBrowser()
 
     ServiceLocator.register_dependency(PlantService, PlantService())
+    ServiceLocator.register_dependency(DeviceService, DeviceService(device_browser))
 
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
@@ -37,3 +42,4 @@ def setup_app() -> FastAPI:
 def include_routers(app: FastAPI):
     app.include_router(health_resource)
     app.include_router(plant_resource)
+    app.include_router(device_resource)

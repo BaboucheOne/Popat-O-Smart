@@ -1,8 +1,12 @@
-class Device:
-    def __init__(self, name: str, ip_address: str, port: int):
-        self.name = name
-        self.ip_address = ip_address
-        self.port = port
+from dataclasses import dataclass
+from dataclasses_jsonschema import JsonSchemaMixin
+
+
+@dataclass
+class Device(JsonSchemaMixin):
+    name: str
+    ip_address: str
+    port: int
 
     def __eq__(self, other):
         if not isinstance(other, Device):
