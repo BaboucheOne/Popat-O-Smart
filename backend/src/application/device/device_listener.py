@@ -14,7 +14,7 @@ from src.domain.device.device_factory import DeviceFactory
 
 class DeviceListener(ServiceListener):
 
-    DEVICE_NAME_REGEX: str = r"water-plant"
+    DEVICE_NAME_REGEX: str = r"water-report"
 
     def __init__(self, device_service_delegate: DeviceBrowserDelegate):
         self.__device_factory = DeviceFactory()
