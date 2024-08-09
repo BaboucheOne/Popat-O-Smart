@@ -10,7 +10,7 @@
 HTTPClient httpClient;
 String* jsonReportData = nullptr;
 StaticJsonDocument<200>* jsonReportDocument = nullptr;
-std::vector<Report> unsent_reports;
+std::vector<Report> pendingReports;
 int nextSendReportTime = 0.0;
 
 constexpr int HTTP_STATUS_OK = 200;
@@ -40,11 +40,11 @@ bool isServerAlive() {
     return responseCode == HTTP_STATUS_OK;
 }
 
-bool isTimeToSendReport(unsigned long time) {
+inline bool isTimeToSendReport(unsigned long time) {
     return nextSendReportTime < time;
 }
 
-void updateNextSendReportTime(unsigned long time) {
+inline void updateNextSendReportTime(unsigned long time) {
     nextSendReportTime = time + REPORT_INTERVAL_MS;
 }
 
@@ -74,13 +74,25 @@ bool sendReport(const Report& report) {
     return responseCode == HTTP_STATUS_CREATED;
 }
 
+void sendPendingReports() {
+    for(auto reportIterator = pendingReports.begin(); reportIterator != pendingReports.end(); ) {
+        if(sendReport(*reportIterator)) {
+            pendingReports.erase(reportIterator);
+        } else {
+            reportIterator++;
+        }
+    }
+}
+
 void loop() {
     unsigned long currentMillis = millis();
 
     if(isTimeToSendReport(currentMillis)) {
         Report report = createReport();
         if(WiFi.status() != WL_CONNECTED || !isServerAlive() || !sendReport(report)) {
-            unsent_reports.push_back(report);
+            pendingReports.push_back(report);
+        } else {
+            sendPendingReports();
         }
         updateNextSendReportTime(currentMillis);
     }
