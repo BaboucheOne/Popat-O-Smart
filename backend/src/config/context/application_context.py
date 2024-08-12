@@ -8,7 +8,7 @@ from src.application.device.device_service import DeviceService
 from src.domain.report.report_repository import ReportRepository
 from src.application.plant.plant_service import ReportService
 from src.config.dotenv_configuration import DotEnvConfiguration
-from src.config.fastapi_client import FastApiClient
+from src.domain.fastapi_client import FastApiClient
 from src.config.service_locator import ServiceLocator
 
 

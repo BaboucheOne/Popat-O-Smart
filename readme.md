@@ -5,6 +5,9 @@ Potato-O-Smart is a simple, all-in-one repository solution for a connected plant
 # Installation 🛠️
 ## Frontend
 ## Backend
+- Install [pycharm](https://www.jetbrains.com/help/pycharm/installation-guide.html)
+- Install `requirements.txt` in a venv.
+- Run main.py
 ## Embedded
 - Install [vscode](https://code.visualstudio.com/download)
 - Install [C/C++ extension](https://code.visualstudio.com/docs/languages/cpp)
@@ -15,6 +18,18 @@ Potato-O-Smart is a simple, all-in-one repository solution for a connected plant
 # Configuration ⚙️
 ## Frontend
 ## Backend
+In `backend` create two files named `.env.dev` and `.env.prod`. These are your configuration to run the backend.
+
+This is an example of `.env.dev`:
+```md
+MONGODB_CONNECTION_STRING=mongodb://localhost:27017/
+MONGODB_CONNECTION_TIMEOUT_MS=50000
+MONGODB_DATABASE_NAME=PotatoSmartPlant
+REPORT_COLLECTION_NAME=reports
+SERVER_IP=127.0.0.1
+SERVER_PORT=8000
+LOGGER_FILENAME=log.log
+```
 ## Embedded
 In `embedded/src` create a file name `config.hpp`. This file will contains information relative to your wifi and server configuration that the ESP32 will use.
 
@@ -42,9 +57,9 @@ constexpr float HUMIDITY_PERCENTAGE_STOP_PUMP_THRESHOLD = 70.0;
 #endif
 ```
 
-| Name      | Explanation       |
+| Name           | Explanation       |
 | -------------- | -------------- |
-| PLANT_UUID | UUID to identity your plant into the server.|
+| PLANT_UUID     | UUID to identity your plant into the server.|
 | REPORT_INTERVAL_MS | Milliseconds to wait before sending another report |
 
 
