@@ -33,6 +33,12 @@ constexpr char PLANT_UUID[37] = "c303282d-f2e6-46ca-a04a-35d3d873712d";
 
 constexpr unsigned long REPORT_INTERVAL_MS = 10 * 60 * 1000;
 
+constexpr int HUMIDITY_SENSOR_PIN = 3;
+constexpr int PUMP_PIN = 4;
+
+constexpr float HUMIDITY_PERCENTAGE_START_PUMP_THRESHOLD = 45.0;
+constexpr float HUMIDITY_PERCENTAGE_STOP_PUMP_THRESHOLD = 70.0;
+
 #endif
 ```
 
