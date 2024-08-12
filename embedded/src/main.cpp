@@ -13,9 +13,6 @@ StaticJsonDocument<200>* jsonReportDocument = nullptr;
 std::vector<Report> pendingReports;
 int nextSendReportTime = 0.0;
 
-constexpr int HTTP_STATUS_OK = 200;
-constexpr int HTTP_STATUS_CREATED = 201;
-
 bool isPumpOn = false;
 
 void setup() {
@@ -41,7 +38,7 @@ bool isServerAlive() {
     int responseCode = httpClient.GET();
     httpClient.end();
 
-    return responseCode == HTTP_STATUS_OK;
+    return responseCode == HTTP_CODE_OK;
 }
 
 inline bool isTimeToSendReport(unsigned long time) {
@@ -75,7 +72,7 @@ bool sendReport(const Report& report) {
     int responseCode = httpClient.POST(*jsonReportData);
     httpClient.end();
 
-    return responseCode == HTTP_STATUS_CREATED;
+    return responseCode == HTTP_CODE_CREATED;
 }
 
 void sendPendingReports() {
