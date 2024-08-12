@@ -16,8 +16,12 @@ int nextSendReportTime = 0.0;
 constexpr int HTTP_STATUS_OK = 200;
 constexpr int HTTP_STATUS_CREATED = 201;
 
+bool isPumpOn = false;
+
 void setup() {
     Serial.begin(115200);
+    analogReadResolution(12);
+    pinMode(PUMP_PIN, OUTPUT);
 
     jsonReportData = new String();
     jsonReportDocument = new StaticJsonDocument<200>();
@@ -48,13 +52,13 @@ inline void updateNextSendReportTime(unsigned long time) {
     nextSendReportTime = time + REPORT_INTERVAL_MS;
 }
 
-Report createReport() {
-    Report report = {"", 4435432, 10.45f};
+Report createReport(int timestamp, int humidity) {
+    Report report = {"", timestamp, humidity};
     std::copy(std::begin(PLANT_UUID), std::end(PLANT_UUID), std::begin(report.plantId));
     return report;
 }
 
-void fillReport(StaticJsonDocument<200>* jsonDocument, const Report& report) {
+void fillJsonDocumentReport(StaticJsonDocument<200>* jsonDocument, const Report& report) {
     (*jsonDocument)["plant_id"] = String(report.plantId);
     (*jsonDocument)["timestamp"] = report.timestamp;
     (*jsonDocument)["humidity"] = report.humidity;
@@ -63,7 +67,7 @@ void fillReport(StaticJsonDocument<200>* jsonDocument, const Report& report) {
 bool sendReport(const Report& report) {
     jsonReportData->clear();
     jsonReportDocument->clear();
-    fillReport(jsonReportDocument, report);
+    fillJsonDocumentReport(jsonReportDocument, report);
     serializeJson(*jsonReportDocument, *jsonReportData);
 
     httpClient.begin(SERVER_REPORT_ENDPOINT);
@@ -85,15 +89,24 @@ void sendPendingReports() {
 }
 
 void loop() {
-    unsigned long currentMillis = millis();
+    unsigned long timestamp = millis();
+    float humidity = analogRead(HUMIDITY_SENSOR_PIN);
 
-    if(isTimeToSendReport(currentMillis)) {
-        Report report = createReport();
+    if(isTimeToSendReport(timestamp)) {
+        Report report = createReport(timestamp, humidity);
         if(WiFi.status() != WL_CONNECTED || !isServerAlive() || !sendReport(report)) {
             pendingReports.push_back(report);
         } else {
             sendPendingReports();
         }
-        updateNextSendReportTime(currentMillis);
+        updateNextSendReportTime(timestamp);
+    }
+
+    if(humidity < HUMIDITY_PERCENTAGE_START_PUMP_THRESHOLD && !isPumpOn) {
+        digitalWrite(PUMP_PIN, HIGH);
+        isPumpOn = true;
+    } else if(humidity > HUMIDITY_PERCENTAGE_STOP_PUMP_THRESHOLD && isPumpOn) {
+        digitalWrite(PUMP_PIN, LOW);
+        isPumpOn = false;
     }
 }
