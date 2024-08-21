@@ -10,7 +10,7 @@ from src.domain.report.report import Report
 
 @dataclass
 class GetReportsResponse(JsonSchemaMixin):
-    devices: List[Report]
+    reports: List[Report]
 
     def response(self) -> Response:
         return Response(
