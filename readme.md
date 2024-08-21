@@ -4,6 +4,9 @@ Potato-O-Smart is a simple, all-in-one repository solution for a connected plant
 
 # Installation 🛠️
 ## Frontend
+- Install [webstorm](https://www.jetbrains.com/webstorm/download/)
+- Run `npm install` to install dependencies.
+- Run `npm start` to start the frondend.
 ## Backend
 - Install [pycharm](https://www.jetbrains.com/help/pycharm/installation-guide.html)
 - Install `requirements.txt` in a venv.
